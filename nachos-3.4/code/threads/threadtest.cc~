@@ -48,7 +48,7 @@ ThreadTest1()
 
     Thread *t = new Thread("forked thread");
 	Thread *t2 = new Thread("forked thread2");//////////////////////////bbbbbbbbbbbbbbbbbb
-	t2->Fork(SimpleThread, 2,2);////////////////bbbbbbbbbbbbbbbbb
+	t2->Fork(SimpleThread, 2,2);
     t->Fork(SimpleThread, 1,1);
     SimpleThread(0);
 }

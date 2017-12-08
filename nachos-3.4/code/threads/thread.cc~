@@ -93,7 +93,7 @@ Thread::Fork(VoidFunctionPtr func, int arg ,int priority)///////////////////////
     StackAllocate(func, arg);
 
     IntStatus oldLevel = interrupt->SetLevel(IntOff);
-    scheduler->ReadyToRun(this,priority);	// ReadyToRun assumes that interrupts /////////////////////bbbbbbbbbbbbbbb
+    scheduler->ReadyToRun(this,priority);	// ReadyToRun assumes that interrupts 
 					// are disabled!
     (void) interrupt->SetLevel(oldLevel);
 }    
