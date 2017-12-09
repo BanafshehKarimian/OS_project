@@ -19,6 +19,7 @@
 #include "switch.h"
 #include "synch.h"
 #include "system.h"
+#include <iostream>
 
 #define STACK_FENCEPOST 0xdeadbeef	// this is put at the top of the
 					// execution stack, for detecting 
@@ -34,10 +35,12 @@
 
 Thread::Thread(char* threadName)
 {
+	
     name = threadName;
     stackTop = NULL;
     stack = NULL;
     status = JUST_CREATED;
+    timeCost = 0;
 #ifdef USER_PROGRAM
     space = NULL;
 #endif
@@ -97,6 +100,24 @@ Thread::Fork(VoidFunctionPtr func, int arg)
 					// are disabled!
     (void) interrupt->SetLevel(oldLevel);
 }    
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Thread::runToSetTime(VoidFunctionPtr func, int arg){
+	int t1 = time(0);
+	StackAllocate(func, arg);
+
+    IntStatus oldLevel = interrupt->SetLevel(IntOff);
+    scheduler->ReadyToRun(this);	// ReadyToRun assumes that interrupts 
+					// are disabled!
+    (void) interrupt->SetLevel(oldLevel);
+    
+    timeCost = (int)time(0) - t1;
+    std::cout << "qqqqqqqqqqqqqqqqqq" << timeCost << "\n";
+}
+
+
 
 //----------------------------------------------------------------------
 // Thread::CheckOverflow
