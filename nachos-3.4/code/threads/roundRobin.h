@@ -10,13 +10,14 @@
 #define SCHEDULER_H
 
 #include "scheduler.h"
+#include "list.h"
 
 
 // The following class defines the scheduler/dispatcher abstraction --
 // the data structures and operations needed to keep track of which
 // thread is running, and which threads are ready but not running.
 
-class RoundRobin : Scheduler {
+class RoundRobin : public Scheduler {
 public:
     RoundRobin();			// Initialize list of ready threads
     ~RoundRobin();			// De-allocate ready list

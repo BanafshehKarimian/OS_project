@@ -1,4 +1,4 @@
-w// interrupt.h
+// interrupt.h
 //	Data structures to emulate low-level interrupt hardware.
 //
 //	The hardware provides a routine (SetLevel) to enable or disable

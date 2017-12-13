@@ -20,7 +20,7 @@
 class Scheduler {
 public:
     Scheduler();			// Initialize list of ready threads
-    virtual ~Scheduler();			// De-allocate ready list
+    ~Scheduler();			// De-allocate ready list
     
     virtual void ReadyToRun(Thread* thread) = 0;	// Thread can be dispatched.
     virtual Thread* FindNextToRun() = 0;		// Dequeue first thread on the ready

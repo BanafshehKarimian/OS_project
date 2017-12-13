@@ -29,7 +29,7 @@
 
 Scheduler::Scheduler()
 { 
-    readyList = new List; 
+
 } 
 
 //----------------------------------------------------------------------
@@ -39,39 +39,8 @@ Scheduler::Scheduler()
 
 Scheduler::~Scheduler()
 { 
-    delete readyList; 
+
 } 
-
-//----------------------------------------------------------------------
-// Scheduler::ReadyToRun
-// 	Mark a thread as ready, but not running.
-//	Put it on the ready list, for later scheduling onto the CPU.
-//
-//	"thread" is the thread to be put on the ready list.
-//----------------------------------------------------------------------
-
-void
-Scheduler::ReadyToRun (Thread *thread,int priority)///////////////////////////////////////////////////////////////////////////////////bbbbbb
-{
-    DEBUG('t', "Putting thread %s on ready list.\n", thread->getName());
-
-    thread->setStatus(READY);
-    readyList->SortedInsert((void *)thread,priority);//////////////////////////////////bbbbbbbbbbb
-}
-
-//----------------------------------------------------------------------
-// Scheduler::FindNextToRun
-// 	Return the next thread to be scheduled onto the CPU.
-//	If there are no ready threads, return NULL.
-// Side effect:
-//	Thread is removed from the ready list.
-//----------------------------------------------------------------------
-
-Thread *
-Scheduler::FindNextToRun ()
-{
-    return (Thread *)readyList->Remove();
-}
 
 //----------------------------------------------------------------------
 // Scheduler::Run
@@ -134,14 +103,3 @@ Scheduler::Run (Thread *nextThread)
 #endif
 }
 
-//----------------------------------------------------------------------
-// Scheduler::Print
-// 	Print the scheduler state -- in other words, the contents of
-//	the ready list.  For debugging.
-//----------------------------------------------------------------------
-void
-Scheduler::Print()
-{
-    printf("Ready list contents:\n");
-    readyList->Mapcar((VoidFunctionPtr) ThreadPrint);
-}

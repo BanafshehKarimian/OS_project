@@ -8,12 +8,13 @@
 #include "copyright.h"
 #include "system.h"
 
+
 // This defines *all* of the global data structures used by Nachos.
 // These are all initialized and de-allocated by this file.
 
 Thread *currentThread;			// the thread we are running now
 Thread *threadToBeDestroyed;  		// the thread that just finished
-Scheduler *scheduler;			// the ready list
+RoundRobin *scheduler;			// the ready list
 Interrupt *interrupt;			// interrupt status
 Statistics *stats;			// performance metrics
 Timer *timer;				// the hardware timer device,
@@ -65,12 +66,6 @@ TimerInterruptHandler(int dummy)
 	interrupt->YieldOnReturn();
 }
 
-static void
-RoundRobintHandler(int RoundRobinTime)//****zahra****:round robin handler function
-{
-    if (interrupt->getStatus() != IdleMode)
-        interrupt->YieldOnReturn();
-}
 //----------------------------------------------------------------------
 // Initialize
 // 	Initialize Nachos global data structures.  Interpret command
@@ -141,10 +136,10 @@ Initialize(int argc, char **argv)
     DebugInit(debugArgs);			// initialize DEBUG messages
     stats = new Statistics();			// collect statistics
     interrupt = new Interrupt;			// start up interrupt handling
-    scheduler = new Scheduler();		// initialize the ready queue
+    scheduler = new RoundRobin();		// initialize the ready queue
     if (randomYield)				// start the timer (if needed)
         timer = new Timer(TimerInterruptHandler, 0, randomYield);
-    roundTime = new Timer(RoundRobinHandler, 0, false);//****zahra****:start the timer for handling round robin
+    roundTime = new Timer(TimerInterruptHandler, 0, false);//****zahra****:start the timer for handling round robin
     threadToBeDestroyed = NULL;
 
     // We didn't explicitly allocate the current thread we are running in.
