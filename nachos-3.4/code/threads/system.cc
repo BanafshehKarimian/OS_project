@@ -18,6 +18,7 @@ Interrupt *interrupt;			// interrupt status
 Statistics *stats;			// performance metrics
 Timer *timer;				// the hardware timer device,
 					// for invoking context switches
+Timer *roundTime;       //****zahra**** timer for round Robin
 
 #ifdef FILESYS_NEEDED
 FileSystem  *fileSystem;
@@ -64,6 +65,12 @@ TimerInterruptHandler(int dummy)
 	interrupt->YieldOnReturn();
 }
 
+static void
+RoundRobintHandler(int RoundRobinTime)//****zahra****:round robin handler function
+{
+    if (interrupt->getStatus() != IdleMode)
+        interrupt->YieldOnReturn();
+}
 //----------------------------------------------------------------------
 // Initialize
 // 	Initialize Nachos global data structures.  Interpret command
@@ -74,12 +81,14 @@ TimerInterruptHandler(int dummy)
 //	"argv" is an array of strings, one for each command line argument
 //		ex: "nachos -d +" -> argv = {"nachos", "-d", "+"}
 //----------------------------------------------------------------------
+
 void
 Initialize(int argc, char **argv)
 {
     int argCount;
     char* debugArgs = "";
     bool randomYield = FALSE;
+    
 
 #ifdef USER_PROGRAM
     bool debugUserProg = FALSE;	// single step user program
@@ -134,8 +143,8 @@ Initialize(int argc, char **argv)
     interrupt = new Interrupt;			// start up interrupt handling
     scheduler = new Scheduler();		// initialize the ready queue
     if (randomYield)				// start the timer (if needed)
-	timer = new Timer(TimerInterruptHandler, 0, randomYield);
-
+        timer = new Timer(TimerInterruptHandler, 0, randomYield);
+    roundTime = new Timer(RoundRobinHandler, 0, false);//****zahra****:start the timer for handling round robin
     threadToBeDestroyed = NULL;
 
     // We didn't explicitly allocate the current thread we are running in.
