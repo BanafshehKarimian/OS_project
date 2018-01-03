@@ -64,12 +64,6 @@ sort: sort.o start.o
 	$(LD) $(LDFLAGS) start.o sort.o -o sort.coff
 	../bin/coff2noff sort.coff sort
 
-matmult.o: matmult.c
-	$(CC) $(CFLAGS) -c matmult.c
-matmult: matmult.o start.o
-	$(LD) $(LDFLAGS) start.o matmult.o -o matmult.coff
-	../bin/coff2noff matmult.coff matmult
-
 forkjoin.o: forkjoin.c
 	$(CC) $(INCDIR) -S forkjoin.c -o forkjoin.s
 	$(AS) $(CFLAGS) forkjoin.s -o forkjoin.o
@@ -77,3 +71,9 @@ forkjoin.o: forkjoin.c
 forkjoin: forkjoin.o start.o
 	$(LD) $(LDFLAGS) start.o forkjoin.o -o forkjoin.coff
 	../bin/coff2noff forkjoin.coff forkjoin
+
+matmult.o: matmult.c
+	$(CC) $(CFLAGS) -c matmult.c
+matmult: matmult.o start.o
+	$(LD) $(LDFLAGS) start.o matmult.o -o matmult.coff
+	../bin/coff2noff matmult.coff matmult
